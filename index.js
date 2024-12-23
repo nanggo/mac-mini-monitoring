@@ -17,9 +17,6 @@ const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: false });
 // 모니터링할 URL
 const URL = process.env.MONITOR_URL;
 
-// 이전 상태 저장 (프로그램 실행 중에만 유지됨)
-let isAvailable = false;
-
 // 웹 페이지 상태 확인 함수
 const checkAvailability = async () => {
   try {
@@ -45,27 +42,20 @@ const checkAvailability = async () => {
     console.log(`현재 클래스: ${classList}`);
 
     // 클래스가 'usItemButtons usItemCartBuyButtons usNone'인지 확인
-    if (classList.includes("usNone")) {
-      if (isAvailable) {
-        // 현재는 비활성화 상태지만 이전에 활성화 상태였던 경우
-        isAvailable = false;
-        console.log("구매 불가능 상태로 변경됨.");
-      } else {
-        console.log("아직 구입할 수 없습니다.");
-      }
-    } else {
-      if (!isAvailable) {
-        // 구매 가능 상태로 변경됨
-        isAvailable = true;
-        console.log("구입 가능 상태로 변경됨! 알림을 전송합니다.");
+    const isAvailable = !classList.includes("usNone");
 
-        // 텔레그램 메시지 전송
-        const message = `구입 가능: ${URL}`;
-        await bot.sendMessage(TELEGRAM_CHAT_ID, message);
-        console.log("메시지를 성공적으로 보냈습니다.");
-      } else {
-        console.log("이미 구입 가능 상태입니다.");
-      }
+    if (isAvailable) {
+      console.log("구입 가능 상태입니다! 알림을 전송합니다.");
+
+      // 텔레그램 메시지 전송
+      const message = `구입 가능: ${URL}`;
+      await bot.sendMessage(TELEGRAM_CHAT_ID, message);
+      console.log("메시지를 성공적으로 보냈습니다.");
+
+      // 프로그램 종료
+      process.exit(0);
+    } else {
+      console.log("구매 불가능 상태입니다.");
     }
   } catch (error) {
     console.error("에러 발생:", error);

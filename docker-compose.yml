@@ -2,9 +2,9 @@
 version: "3.8"
 
 services:
-  item-monitor:
+  mac-mini-monitor:
     build: .
     env_file:
       - .env
-    restart: unless-stopped
+    restart: "no" # 컨테이너가 종료되었을 때 재시작하지 않도록 설정
     container_name: mac-mini-monitor
