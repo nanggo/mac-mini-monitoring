@@ -1,6 +1,6 @@
 // index.js
 import axios from "axios";
-import cheerio from "cheerio";
+import { load } from "cheerio";
 import TelegramBot from "node-telegram-bot-api";
 import schedule from "node-schedule";
 import dotenv from "dotenv";
@@ -31,10 +31,9 @@ const checkAvailability = async () => {
     });
 
     const html = response.data;
-    const $ = cheerio.load(html);
+    const $ = load(html);
 
     // 특정 클래스가 있는 요소를 선택합니다.
-    // 실제 셀렉터에 맞게 수정하세요.
     const button = $(".usItemButtons.usItemCartBuyButtons");
 
     if (button.length === 0) {
