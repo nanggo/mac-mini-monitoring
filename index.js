@@ -41,8 +41,7 @@ const checkAvailability = async () => {
     const classList = button.attr("class");
     console.log(`현재 클래스: ${classList}`);
 
-    // 클래스가 'usItemButtons usItemCartBuyButtons usNone'인지 확인
-    const isAvailable = !classList.includes("usNone");
+    const isAvailable = !button[0].classList.contains("usNone");
 
     if (isAvailable) {
       console.log("구입 가능 상태입니다! 알림을 전송합니다.");
