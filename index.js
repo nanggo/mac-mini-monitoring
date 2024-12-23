@@ -14,6 +14,16 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 // 봇 초기화
 const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: false });
 
+// 프로그램 시작 시 텔레그램 알림 전송
+bot
+  .sendMessage(TELEGRAM_CHAT_ID, "모니터링 프로그램이 시작되었습니다.")
+  .then(() => {
+    console.log("스타트업 메시지를 성공적으로 보냈습니다.");
+  })
+  .catch((error) => {
+    console.error("스타트업 메시지 전송 중 에러 발생:", error);
+  });
+
 // 모니터링할 URL
 const URL = process.env.MONITOR_URL;
 
