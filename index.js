@@ -71,8 +71,8 @@ const checkAvailability = async () => {
   }
 };
 
-// 스케줄 설정: 매시간 0분에 실행
-schedule.scheduleJob("0 * * * *", () => {
+// 스케줄 설정: 매 5분마다 실행
+schedule.scheduleJob("*/5 * * * *", () => {
   console.log("페이지 상태를 확인합니다:", new Date().toLocaleString());
   checkAvailability();
 });
